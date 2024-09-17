@@ -3,52 +3,50 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package org.centrale.objet.WoE;
-import java.util.Random;
 
 /**
  *
- * @author remib
+ * @author Quent
  */
+import java.util.Random;
+
 public class World {
-    public Archer robin;
-    public Paysan peon;
-    public Lapin bugs;
+    public Lapin lapin1;
+    public Lapin lapin2;
+    public Paysan paysan1;
+    public Archer archer1;
 
     public World() {
+        this.lapin1=new Lapin();
+        this.lapin2=new Lapin();
+        this.archer1=new Archer();
+        this.paysan1=new Paysan();
     }
-    
     public void creerMondeAlea(){
-        Random generateurAleatoire = new Random();
-        
-        Point2D pointApparitionAleatoire = generePoint2DAleatoire(generateurAleatoire);
-        robin = new Archer(pointApparitionAleatoire);
-        
-        while(pointApparitionAleatoire.equals(robin.getPos())){
-            pointApparitionAleatoire = generePoint2DAleatoire(generateurAleatoire);
+        int largeurMonde=2;
+        int[][] coordonnees=new int[4][2];
+        boolean test;
+        Random generateur= new Random();
+        //coordonnees[0][0]=generateur.nextInt(largeurMonde);
+        //coordonnees[0][1]=generateur.nextInt(largeurMonde);
+        for (int i=0;i<4;i++){
+            test=false;
+            while(test==false){
+                coordonnees[i][0]=generateur.nextInt(largeurMonde);
+                coordonnees[i][1]=generateur.nextInt(largeurMonde);
+                test=true;
+                for(int j=0;j<i;j++){
+                    if (coordonnees[i][0]==coordonnees[j][0] && coordonnees[i][1]==coordonnees[j][1]){
+                        test=false;
+                    }
+                }
+            }
+            
         }
-        peon = new Paysan(pointApparitionAleatoire);
-        
-        while(pointApparitionAleatoire.equals(robin.getPos()) || pointApparitionAleatoire.equals(peon.getPos())){
-            pointApparitionAleatoire = generePoint2DAleatoire(generateurAleatoire);
-        }
-        bugs = new Lapin(pointApparitionAleatoire);
+        lapin1.setPos(new Point2D(coordonnees[0][0],coordonnees[0][1]));
+        lapin2.setPos(new Point2D(coordonnees[1][0],coordonnees[1][1]));
+        paysan1.setPos(new Point2D(coordonnees[2][0],coordonnees[2][1]));
+        archer1.setPos(new Point2D(coordonnees[3][0],coordonnees[3][1]));
     }
     
-    private Point2D generePoint2DAleatoire(Random generateurAleatoire){
-        int posX = generateurAleatoire.nextInt(50);
-        int posY = generateurAleatoire.nextInt(50);
-        Point2D pointAleatoire = new Point2D(posX, posY);
-        pointAleatoire.affiche();
-        return pointAleatoire;
-    }
-    
-    public void afficheWorld(){
-        System.out.print("L'archer se trouve en : ");
-        robin.getPos().affiche();
-        System.out.print("Le paysan se trouve en : ");
-        peon.getPos().affiche();
-        System.out.print("Le lapin se trouve en : ");
-        bugs.getPos().affiche();
-        
-    }
 }
